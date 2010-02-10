@@ -77,6 +77,12 @@ sub serve_by_name {
     my ($class, $domain, $name, $incoming_key) = @_;
     my $key = Jifty::CAS->key($domain, $name);
 
+    # maybe memcached was being restarted - wait 2 seconds and try once more
+    if (! defined $key) {
+        sleep 2;
+        $key = Jifty::CAS->key($domain, $name);
+    }
+
     return $class->_serve_404( $domain, $name, "Unable to lookup key." )
         if not defined $key;
 
