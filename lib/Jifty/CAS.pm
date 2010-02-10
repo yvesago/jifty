@@ -93,6 +93,12 @@ sub serve_by_name {
     }
 
     my $obj = Jifty::CAS->retrieve($domain, $key);
+    
+    # maybe memcached was being restarted - wait 2 seconds and try once more
+    if (! defined $obj) {
+        sleep 2;
+        $obj = Jifty::CAS->retrieve($domain, $key);
+    }
 
     return $class->_serve_404( $domain, $name, "Unable to retrieve blob." )
         if not defined $obj;
