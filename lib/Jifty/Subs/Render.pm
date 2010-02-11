@@ -100,7 +100,7 @@ sub render_single {
 
     my $event_object   = $class->new($msg);
     # Region's arguments come from explicit arguments only
-    $region->arguments( $render_info->{arguments} );
+    $region->arguments( $render_info->{arguments} || {} );
 
     $region->enter;
     # Also provide an 'event' argument, and fill in the render

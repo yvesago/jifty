@@ -214,6 +214,10 @@ sub render_jifty_page_detritus {
     with( id => "jifty-wait-message", style => "display: none" ),
         div { _('Loading...') };
 
+    # XXX: pubsub is now a plugin. this should be a hook registered by
+    # plugins, perhaps just use after_include_javascript?
+
+
     # This is required for jifty server push.  If you maintain your own
     # wrapper, make sure you have this as well.
     if ( Jifty->config->framework('PubSub')->{'Enable'} && Jifty::Subs->list )

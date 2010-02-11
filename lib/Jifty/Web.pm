@@ -43,7 +43,6 @@ __PACKAGE__->javascript_libs([qw(
     behaviour.js
     jifty.js
     jifty_utils.js
-    jifty_subs.js
     jifty_smoothscroll.js
     calendar.js
     datetime.js

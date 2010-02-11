@@ -596,6 +596,7 @@ sub update_config {
         );
 
         push (@{$config->{'framework'}->{'Plugins'}},
+            { PubSub        => {}, },
             { Deflater      => {}, }
         );
     }
