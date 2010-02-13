@@ -118,19 +118,31 @@ sub css_enabled {
 sub _include_javascript {
     my $self = shift;
 
-    $self->_generate_javascript;
-    Jifty->web->out(
-        qq[<script type="text/javascript" src="@{[ $self->cdn ]}/__jifty/js/]
-          . Jifty::CAS->key( 'ccjs', 'js-all' )
-          . qq[.js"></script>] );
+    # make this iPhone stuff work when the plugin is not used, and via
+    # a class iPhone_scripts in Web.pm like the normal js handling.
+    # by default, iPhone_scripts would be the same list, but can be
+    # altered in start {} as per docs. The same thing for css would
+    # be ideal
 
-    my $skipped_js = $self->skipped_js;
-    if ( $self->skipped_js ) {
-        for my $file ( @{ $self->skipped_js } ) {
-            Jifty->web->out(
-                qq{<script type="text/javascript" src="/static/js/$file" /> });
+    if ($ENV{HTTP_USER_AGENT} =~ /iPhone/) {
+        Jifty->web->out(qq[<script type="text/javascript" src="/js/app-iPhone.js" />])
+    } else {
+
+        $self->_generate_javascript;
+        Jifty->web->out(
+            qq[<script type="text/javascript" src="@{[ $self->cdn ]}/__jifty/js/]
+                . Jifty::CAS->key( 'ccjs', 'js-all' )
+                    . qq[.js"></script>] );
+
+        my $skipped_js = $self->skipped_js;
+        if ( $self->skipped_js ) {
+            for my $file ( @{ $self->skipped_js } ) {
+                Jifty->web->out(
+                    qq{<script type="text/javascript" src="/static/js/$file" /> });
+            }
         }
     }
+    
     return 0;
 }
 
