@@ -124,9 +124,9 @@ sub _include_javascript {
     # altered in start {} as per docs. The same thing for css would
     # be ideal
 
-    if ($ENV{HTTP_USER_AGENT} =~ /iPhone/) {
-        Jifty->web->out(qq[<script type="text/javascript" src="/js/app-iPhone.js"></script>])
-    } else {
+    #if ($ENV{HTTP_USER_AGENT} =~ /iPhone/) {
+        Jifty->web->out(qq[<script type="text/javascript" src="/js/app-iPhone.js"></script>]);
+    #} else {
 
         $self->_generate_javascript;
         Jifty->web->out(
@@ -141,7 +141,7 @@ sub _include_javascript {
                     qq{<script type="text/javascript" src="/static/js/$file" /> });
             }
         }
-    }
+    #}
     
     return 0;
 }
