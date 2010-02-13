@@ -125,7 +125,7 @@ sub _include_javascript {
     # be ideal
 
     if ($ENV{HTTP_USER_AGENT} =~ /iPhone/) {
-        Jifty->web->out(qq[<script type="text/javascript" src="/js/app-iPhone.js" />])
+        Jifty->web->out(qq[<script type="text/javascript" src="/js/app-iPhone.js"></script>])
     } else {
 
         $self->_generate_javascript;
