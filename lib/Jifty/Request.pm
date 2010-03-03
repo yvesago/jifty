@@ -22,6 +22,15 @@ has 'headers' => (is => 'rw', isa => 'HTTP::Headers', default => sub { HTTP::Hea
 has 'uri' => (is => 'rw', isa => 'URI', default => sub { URI->new('http:///') });
 has 'cookies' => (is => 'rw', isa => 'HashRef', default => sub { {} } );
 has 'scheme' => (is => "rw", isa => "Str", default => sub { 'http' });
+# we need to set request_uri sometimes
+has 'request_uri' => (
+    is      => "rw",
+    isa     => "Str",
+    lazy    => 1,
+    default => sub {
+        $_[0]->env->{REQUEST_URI} || '';
+    },
+);
 
 sub address     { $_[0]->env->{REMOTE_ADDR} }
 sub remote_host { $_[0]->env->{REMOTE_HOST} }
@@ -30,7 +39,7 @@ sub method      { $_[0]->env->{REQUEST_METHOD} = $_[1] if @_ > 1; $_[0]->env->{R
 sub request_method { Carp::carp "request_method is deprecated, use method instead"; goto \&method }
 sub port        { $_[0]->env->{SERVER_PORT} }
 sub user        { $_[0]->env->{REMOTE_USER} }
-sub request_uri { $_[0]->env->{REQUEST_URI} }
+#sub request_uri { $_[0]->env->{REQUEST_URI} }
 sub path_info   { $_[0]->env->{PATH_INFO} }
 sub script_name { $_[0]->env->{SCRIPT_NAME} }
 sub secure      { $_[0]->scheme eq 'https' }
